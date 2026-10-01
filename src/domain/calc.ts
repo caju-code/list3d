@@ -1,4 +1,4 @@
-import type { OrderItem } from "./types";
+import { OTHER_CATEGORY, type OrderItem } from "./types";
 
 export function itemSubtotal(item: OrderItem): number {
   return item.quantity * item.unitPriceCents;
@@ -45,8 +45,18 @@ export function groupByCategory(items: OrderItem[]): CategoryGroup[] {
   );
 
   return groups.sort((a, b) => {
-    if (a.category === "Other") return 1;
-    if (b.category === "Other") return -1;
+    if (a.category === OTHER_CATEGORY) return 1;
+    if (b.category === OTHER_CATEGORY) return -1;
     return a.category.localeCompare(b.category);
   });
+}
+
+export function reassignCategory(
+  items: OrderItem[],
+  from: string,
+  to: string,
+): OrderItem[] {
+  return items.map((item) =>
+    item.category === from ? { ...item, category: to } : item,
+  );
 }

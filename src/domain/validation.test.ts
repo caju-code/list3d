@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { validateItemDraft } from "./validation";
+import { validateCategoryName, validateItemDraft } from "./validation";
 
 const validRaw = {
   name: "Token organizer",
@@ -70,5 +70,34 @@ describe("validateItemDraft", () => {
     expect(Object.keys(result.errors)).toEqual(
       expect.arrayContaining(["name", "quantity"]),
     );
+  });
+});
+
+describe("validateCategoryName", () => {
+  const existing = ["Organizers", "Miniatures"];
+
+  it("accepts a new, unique name and trims it", () => {
+    const result = validateCategoryName("  Storage  ", existing);
+    expect(result.ok).toBe(true);
+    expect(result.name).toBe("Storage");
+  });
+
+  it("rejects an empty name", () => {
+    expect(validateCategoryName("", existing).ok).toBe(false);
+    expect(validateCategoryName("   ", existing).ok).toBe(false);
+  });
+
+  it("rejects a case-insensitive match to the reserved Other category", () => {
+    expect(validateCategoryName("other", existing).ok).toBe(false);
+    expect(validateCategoryName("OTHER", existing).ok).toBe(false);
+  });
+
+  it("rejects a case-insensitive duplicate of an existing category", () => {
+    expect(validateCategoryName("organizers", existing).ok).toBe(false);
+  });
+
+  it("accepts a name equal to the excluded name (rename no-op)", () => {
+    const result = validateCategoryName("Organizers", existing, "Organizers");
+    expect(result.ok).toBe(true);
   });
 });

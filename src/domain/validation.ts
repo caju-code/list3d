@@ -1,6 +1,6 @@
 import type { ErrorKey } from "@/i18n/en";
 import { parsePriceToCents } from "./money";
-import type { ItemDraft, ItemStatus } from "./types";
+import { OTHER_CATEGORY, type ItemDraft, type ItemStatus } from "./types";
 
 export interface RawItemDraft {
   name: string;
@@ -34,7 +34,7 @@ export function validateItemDraft(raw: RawItemDraft): ValidationResult {
     return { ok: false, errors };
   }
 
-  const category = raw.category.trim() || "Other";
+  const category = raw.category.trim() || OTHER_CATEGORY;
 
   return {
     ok: true,
@@ -47,4 +47,36 @@ export function validateItemDraft(raw: RawItemDraft): ValidationResult {
       status: raw.status,
     },
   };
+}
+
+export interface CategoryNameValidationResult {
+  ok: boolean;
+  name?: string;
+  error?: ErrorKey;
+}
+
+export function validateCategoryName(
+  raw: string,
+  existing: string[],
+  excluding?: string,
+): CategoryNameValidationResult {
+  const name = raw.trim();
+
+  if (!name) {
+    return { ok: false, error: "categoryNameRequired" };
+  }
+
+  if (name.toLowerCase() === OTHER_CATEGORY.toLowerCase()) {
+    return { ok: false, error: "categoryNameReserved" };
+  }
+
+  const isDuplicate = existing.some(
+    (category) =>
+      category !== excluding && category.toLowerCase() === name.toLowerCase(),
+  );
+  if (isDuplicate) {
+    return { ok: false, error: "categoryNameDuplicate" };
+  }
+
+  return { ok: true, name };
 }

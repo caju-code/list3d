@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { AppHeader } from "@/components/AppHeader";
 import { OrderSummary } from "@/components/OrderSummary";
+import { CategoryManager } from "@/components/CategoryManager";
 import { ItemForm } from "@/components/ItemForm";
 import { ItemList } from "@/components/ItemList";
 import { mockOrderRepository } from "@/data/orderRepository";
@@ -16,10 +17,16 @@ import type { OrderItem } from "@/domain/types";
 import { useOrder } from "@/state/useOrder";
 
 export default function Home() {
-  const { order, addItem, updateItem, removeItem } = useOrder(mockOrderRepository);
+  const {
+    order,
+    addItem,
+    updateItem,
+    removeItem,
+    addCategory,
+    renameCategory,
+    deleteCategory,
+  } = useOrder(mockOrderRepository);
   const [editingItem, setEditingItem] = useState<OrderItem | null>(null);
-
-  const categories = Array.from(new Set(order.items.map((item) => item.category)));
 
   function handleSubmit(draft: Parameters<typeof addItem>[0]) {
     if (editingItem) {
@@ -46,10 +53,17 @@ export default function Home() {
         deliveredItemCount={deliveredItemCount(order.items)}
       />
 
+      <CategoryManager
+        categories={order.categories}
+        onAdd={addCategory}
+        onRename={renameCategory}
+        onDelete={deleteCategory}
+      />
+
       <ItemForm
         key={editingItem?.id ?? "new"}
         editingItem={editingItem}
-        categories={categories}
+        categories={order.categories}
         onSubmit={handleSubmit}
         onCancelEdit={() => setEditingItem(null)}
       />

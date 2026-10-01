@@ -8,6 +8,8 @@ export const ITEM_STATUSES = [
 
 export type ItemStatus = (typeof ITEM_STATUSES)[number];
 
+export const OTHER_CATEGORY = "Other" as const;
+
 export interface OrderItem {
   id: string;
   name: string;
@@ -22,6 +24,7 @@ export interface Order {
   clientName: string;
   title: string;
   items: OrderItem[];
+  categories: string[];
 }
 
 export type ItemDraft = Omit<OrderItem, "id">;

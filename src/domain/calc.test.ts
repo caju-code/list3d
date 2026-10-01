@@ -7,6 +7,7 @@ import {
   groupByCategory,
   itemCount,
   itemSubtotal,
+  reassignCategory,
 } from "./calc";
 
 function makeItem(overrides: Partial<OrderItem> = {}): OrderItem {
@@ -94,5 +95,30 @@ describe("groupByCategory", () => {
     ];
     const groups = groupByCategory(items);
     expect(groups.map((g) => g.category)).toEqual(["Inserts", "Miniatures", "Other"]);
+  });
+});
+
+describe("reassignCategory", () => {
+  it("reassigns items matching the from category to the to category", () => {
+    const items = [
+      makeItem({ id: "item-1", category: "Organizers" }),
+      makeItem({ id: "item-2", category: "Miniatures" }),
+    ];
+    const result = reassignCategory(items, "Organizers", "Storage");
+    expect(result.find((i) => i.id === "item-1")?.category).toBe("Storage");
+    expect(result.find((i) => i.id === "item-2")?.category).toBe("Miniatures");
+  });
+
+  it("returns a new array without mutating the input", () => {
+    const items = [makeItem({ id: "item-1", category: "Organizers" })];
+    const result = reassignCategory(items, "Organizers", "Storage");
+    expect(result).not.toBe(items);
+    expect(items[0].category).toBe("Organizers");
+  });
+
+  it("is a no-op when no items match the from category", () => {
+    const items = [makeItem({ id: "item-1", category: "Miniatures" })];
+    const result = reassignCategory(items, "Organizers", "Storage");
+    expect(result.map((i) => i.category)).toEqual(["Miniatures"]);
   });
 });

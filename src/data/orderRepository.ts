@@ -9,6 +9,7 @@ const seedOrder: Order = {
   id: "order-1",
   clientName: "Board Haven Games",
   title: "Board Haven Games — insert order",
+  categories: ["Inserts", "Organizers", "Miniatures"],
   items: [
     {
       id: "seed-1",

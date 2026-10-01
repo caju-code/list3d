@@ -2,7 +2,7 @@
 
 import { useId, useState } from "react";
 import { t } from "@/i18n/en";
-import { ITEM_STATUSES, type ItemDraft, type OrderItem } from "@/domain/types";
+import { ITEM_STATUSES, OTHER_CATEGORY, type ItemDraft, type OrderItem } from "@/domain/types";
 import { validateItemDraft, type RawItemDraft } from "@/domain/validation";
 
 interface ItemFormProps {
@@ -89,7 +89,7 @@ export function ItemForm({
             className={inputClass(false)}
           />
           <datalist id={categoryListId}>
-            {categories.map((category) => (
+            {[...categories, OTHER_CATEGORY].map((category) => (
               <option key={category} value={category} />
             ))}
           </datalist>

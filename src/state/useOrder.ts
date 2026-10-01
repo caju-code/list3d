@@ -2,12 +2,16 @@
 
 import { useEffect, useReducer } from "react";
 import type { OrderRepository } from "@/data/orderRepository";
-import type { ItemDraft, Order, OrderItem } from "@/domain/types";
+import { reassignCategory } from "@/domain/calc";
+import { OTHER_CATEGORY, type ItemDraft, type Order, type OrderItem } from "@/domain/types";
 
 type Action =
   | { type: "add"; item: OrderItem }
   | { type: "update"; id: string; draft: ItemDraft }
-  | { type: "remove"; id: string };
+  | { type: "remove"; id: string }
+  | { type: "addCategory"; name: string }
+  | { type: "renameCategory"; from: string; to: string }
+  | { type: "deleteCategory"; name: string };
 
 function reducer(order: Order, action: Action): Order {
   switch (action.type) {
@@ -25,6 +29,31 @@ function reducer(order: Order, action: Action): Order {
         ...order,
         items: order.items.filter((item) => item.id !== action.id),
       };
+    case "addCategory":
+      if (order.categories.includes(action.name)) return order;
+      return { ...order, categories: [...order.categories, action.name] };
+    case "renameCategory": {
+      if (action.from === OTHER_CATEGORY || !order.categories.includes(action.from)) {
+        return order;
+      }
+      return {
+        ...order,
+        categories: order.categories.map((category) =>
+          category === action.from ? action.to : category,
+        ),
+        items: reassignCategory(order.items, action.from, action.to),
+      };
+    }
+    case "deleteCategory": {
+      if (action.name === OTHER_CATEGORY || !order.categories.includes(action.name)) {
+        return order;
+      }
+      return {
+        ...order,
+        categories: order.categories.filter((category) => category !== action.name),
+        items: reassignCategory(order.items, action.name, OTHER_CATEGORY),
+      };
+    }
     default:
       return order;
   }
@@ -49,5 +78,25 @@ export function useOrder(repository: OrderRepository) {
     dispatch({ type: "remove", id });
   }
 
-  return { order, addItem, updateItem, removeItem };
+  function addCategory(name: string) {
+    dispatch({ type: "addCategory", name });
+  }
+
+  function renameCategory(from: string, to: string) {
+    dispatch({ type: "renameCategory", from, to });
+  }
+
+  function deleteCategory(name: string) {
+    dispatch({ type: "deleteCategory", name });
+  }
+
+  return {
+    order,
+    addItem,
+    updateItem,
+    removeItem,
+    addCategory,
+    renameCategory,
+    deleteCategory,
+  };
 }

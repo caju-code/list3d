@@ -40,6 +40,9 @@ export const t = {
     nameRequired: "Enter a name for this item.",
     quantityInvalid: "Quantity must be a whole number of 1 or more.",
     unitPriceInvalid: "Enter a price like 12,50 or 12.50.",
+    categoryNameRequired: "Enter a category name.",
+    categoryNameReserved: "“Other” is reserved for uncategorized items.",
+    categoryNameDuplicate: "A category with this name already exists.",
   },
 
   list: {
@@ -50,6 +53,20 @@ export const t = {
     confirmDeleteYes: "Yes, delete",
     confirmDeleteNo: "Cancel",
     otherCategory: "Other",
+  },
+
+  categories: {
+    manage: "Manage categories",
+    addPlaceholder: "New category name",
+    add: "Add",
+    rename: "Rename",
+    save: "Save",
+    cancel: "Cancel",
+    delete: "Delete",
+    confirmDelete: "Delete this category? Its items move to “Other”.",
+    confirmDeleteYes: "Yes, delete",
+    confirmDeleteNo: "Cancel",
+    empty: "No categories yet.",
   },
 };
 
