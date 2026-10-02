@@ -1,8 +1,7 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { getOrder } from "@/server/db";
-
-const ORDER_ID_COOKIE = "order-id";
+import { ORDER_ID_COOKIE } from "@/server/cookies";
 
 export default async function Home() {
   const cookieStore = await cookies();

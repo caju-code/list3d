@@ -1,36 +1,44 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Printfloor
 
-## Getting Started
+Tracks 3D-print orders and their cash/barter settlement: items, categories,
+installments, delivered vs. total value, and shareable order links.
 
-First, run the development server:
+Built with Next.js 16 (App Router) + TypeScript + Tailwind v4, persisted to a
+Turso (libSQL) database.
+
+## Local development
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000). With no environment
+variables set, the app falls back to a local SQLite file at `./local.db`
+(gitignored) — no Turso account needed for local work.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Variable             | Required in         | Notes                                              |
+| --------------------- | -------------------- | --------------------------------------------------- |
+| `TURSO_DATABASE_URL`  | staging / production | libSQL connection URL for the Turso database        |
+| `TURSO_AUTH_TOKEN`    | staging / production | auth token for that database                        |
 
-## Learn More
+See `.env.example`. Set these per-environment (Production/Preview) in the
+Vercel project settings — never commit real values.
 
-To learn more about Next.js, take a look at the following resources:
+## Testing
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm run lint
+npm run test
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Both run in CI (`.github/workflows/ci.yml`, alongside `npm run build`) on
+every pull request and on push to `main`.
 
-## Deploy on Vercel
+## Deploy
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The project is deployed on Vercel, connected to this GitHub repo. Merging to
+`main` (after the CI checks above pass) triggers a production deploy
+automatically.
