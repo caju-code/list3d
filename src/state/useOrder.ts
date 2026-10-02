@@ -3,7 +3,16 @@
 import { useEffect, useReducer } from "react";
 import type { OrderRepository } from "@/data/orderRepository";
 import { reassignCategory } from "@/domain/calc";
-import { OTHER_CATEGORY, type ItemDraft, type Order, type OrderItem } from "@/domain/types";
+import {
+  OTHER_CATEGORY,
+  type BarterEntry,
+  type BarterEntryDraft,
+  type ItemDraft,
+  type Installment,
+  type InstallmentDraft,
+  type Order,
+  type OrderItem,
+} from "@/domain/types";
 
 type Action =
   | { type: "add"; item: OrderItem }
@@ -11,7 +20,13 @@ type Action =
   | { type: "remove"; id: string }
   | { type: "addCategory"; name: string }
   | { type: "renameCategory"; from: string; to: string }
-  | { type: "deleteCategory"; name: string };
+  | { type: "deleteCategory"; name: string }
+  | { type: "addInstallment"; installment: Installment }
+  | { type: "updateInstallment"; id: string; draft: InstallmentDraft }
+  | { type: "removeInstallment"; id: string }
+  | { type: "addBarterEntry"; entry: BarterEntry }
+  | { type: "updateBarterEntry"; id: string; draft: BarterEntryDraft }
+  | { type: "removeBarterEntry"; id: string };
 
 function reducer(order: Order, action: Action): Order {
   switch (action.type) {
@@ -54,6 +69,38 @@ function reducer(order: Order, action: Action): Order {
         items: reassignCategory(order.items, action.name, OTHER_CATEGORY),
       };
     }
+    case "addInstallment":
+      return { ...order, installments: [...order.installments, action.installment] };
+    case "updateInstallment":
+      return {
+        ...order,
+        installments: order.installments.map((installment) =>
+          installment.id === action.id
+            ? { ...action.draft, id: action.id }
+            : installment,
+        ),
+      };
+    case "removeInstallment":
+      return {
+        ...order,
+        installments: order.installments.filter(
+          (installment) => installment.id !== action.id,
+        ),
+      };
+    case "addBarterEntry":
+      return { ...order, barterEntries: [...order.barterEntries, action.entry] };
+    case "updateBarterEntry":
+      return {
+        ...order,
+        barterEntries: order.barterEntries.map((entry) =>
+          entry.id === action.id ? { ...action.draft, id: action.id } : entry,
+        ),
+      };
+    case "removeBarterEntry":
+      return {
+        ...order,
+        barterEntries: order.barterEntries.filter((entry) => entry.id !== action.id),
+      };
     default:
       return order;
   }
@@ -90,6 +137,30 @@ export function useOrder(repository: OrderRepository) {
     dispatch({ type: "deleteCategory", name });
   }
 
+  function addInstallment(draft: InstallmentDraft) {
+    dispatch({ type: "addInstallment", installment: { ...draft, id: crypto.randomUUID() } });
+  }
+
+  function updateInstallment(id: string, draft: InstallmentDraft) {
+    dispatch({ type: "updateInstallment", id, draft });
+  }
+
+  function removeInstallment(id: string) {
+    dispatch({ type: "removeInstallment", id });
+  }
+
+  function addBarterEntry(draft: BarterEntryDraft) {
+    dispatch({ type: "addBarterEntry", entry: { ...draft, id: crypto.randomUUID() } });
+  }
+
+  function updateBarterEntry(id: string, draft: BarterEntryDraft) {
+    dispatch({ type: "updateBarterEntry", id, draft });
+  }
+
+  function removeBarterEntry(id: string) {
+    dispatch({ type: "removeBarterEntry", id });
+  }
+
   return {
     order,
     addItem,
@@ -98,5 +169,11 @@ export function useOrder(repository: OrderRepository) {
     addCategory,
     renameCategory,
     deleteCategory,
+    addInstallment,
+    updateInstallment,
+    removeInstallment,
+    addBarterEntry,
+    updateBarterEntry,
+    removeBarterEntry,
   };
 }

@@ -1,4 +1,5 @@
 const PRICE_PATTERN = /^(\d+)([.,](\d{1,2}))?$/;
+const SIGNED_PRICE_PATTERN = /^(-?)(\d+)([.,](\d{1,2}))?$/;
 
 export function parsePriceToCents(input: string): number | null {
   const trimmed = input.trim();
@@ -10,6 +11,17 @@ export function parsePriceToCents(input: string): number | null {
   return Number(whole) * 100 + Number(cents);
 }
 
+export function parseSignedPriceToCents(input: string): number | null {
+  const trimmed = input.trim();
+  const match = SIGNED_PRICE_PATTERN.exec(trimmed);
+  if (!match) return null;
+
+  const [, sign, whole, , fraction] = match;
+  const cents = fraction ? fraction.padEnd(2, "0") : "00";
+  const magnitude = Number(whole) * 100 + Number(cents);
+  return sign ? -magnitude : magnitude;
+}
+
 const brlFormatter = new Intl.NumberFormat("pt-BR", {
   style: "currency",
   currency: "BRL",
@@ -17,4 +29,8 @@ const brlFormatter = new Intl.NumberFormat("pt-BR", {
 
 export function formatBRL(cents: number): string {
   return brlFormatter.format(cents / 100);
+}
+
+export function formatCentsForInput(cents: number): string {
+  return (cents / 100).toFixed(2).replace(".", ",");
 }

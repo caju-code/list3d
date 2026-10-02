@@ -6,6 +6,9 @@ import { OrderSummary } from "@/components/OrderSummary";
 import { CategoryManager } from "@/components/CategoryManager";
 import { ItemForm } from "@/components/ItemForm";
 import { ItemList } from "@/components/ItemList";
+import { FinancialSummary } from "@/components/FinancialSummary";
+import { BarterEntryManager } from "@/components/BarterEntryManager";
+import { InstallmentManager } from "@/components/InstallmentManager";
 import { mockOrderRepository } from "@/data/orderRepository";
 import {
   deliveredItemCount,
@@ -25,6 +28,12 @@ export default function Home() {
     addCategory,
     renameCategory,
     deleteCategory,
+    addInstallment,
+    updateInstallment,
+    removeInstallment,
+    addBarterEntry,
+    updateBarterEntry,
+    removeBarterEntry,
   } = useOrder(mockOrderRepository);
   const [editingItem, setEditingItem] = useState<OrderItem | null>(null);
 
@@ -69,6 +78,26 @@ export default function Home() {
       />
 
       <ItemList items={order.items} onEdit={setEditingItem} onDelete={handleDelete} />
+
+      <FinancialSummary
+        items={order.items}
+        barterEntries={order.barterEntries}
+        installments={order.installments}
+      />
+
+      <BarterEntryManager
+        entries={order.barterEntries}
+        onAdd={addBarterEntry}
+        onUpdate={updateBarterEntry}
+        onDelete={removeBarterEntry}
+      />
+
+      <InstallmentManager
+        installments={order.installments}
+        onAdd={addInstallment}
+        onUpdate={updateInstallment}
+        onDelete={removeInstallment}
+      />
     </div>
   );
 }

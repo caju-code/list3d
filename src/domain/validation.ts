@@ -1,6 +1,14 @@
 import type { ErrorKey } from "@/i18n/en";
-import { parsePriceToCents } from "./money";
-import { OTHER_CATEGORY, type ItemDraft, type ItemStatus } from "./types";
+import { parsePriceToCents, parseSignedPriceToCents } from "./money";
+import {
+  OTHER_CATEGORY,
+  type BarterEntryDraft,
+  type BarterType,
+  type InstallmentDraft,
+  type InstallmentStatus,
+  type ItemDraft,
+  type ItemStatus,
+} from "./types";
 
 export interface RawItemDraft {
   name: string;
@@ -79,4 +87,105 @@ export function validateCategoryName(
   }
 
   return { ok: true, name };
+}
+
+function blankToUndefined(value: string): string | undefined {
+  const trimmed = value.trim();
+  return trimmed ? trimmed : undefined;
+}
+
+function validateDescriptionAndAmount(
+  raw: { description: string; amount: string },
+  allowNegative = false,
+): {
+  errors: Partial<Record<"description" | "amount", ErrorKey>>;
+  description: string;
+  amountCents: number | null;
+} {
+  const errors: Partial<Record<"description" | "amount", ErrorKey>> = {};
+
+  const description = raw.description.trim();
+  if (!description) errors.description = "descriptionRequired";
+
+  const amountCents = allowNegative
+    ? parseSignedPriceToCents(raw.amount)
+    : parsePriceToCents(raw.amount);
+  if (amountCents === null) errors.amount = "amountInvalid";
+
+  return { errors, description, amountCents };
+}
+
+export interface RawInstallmentDraft {
+  description: string;
+  amount: string;
+  date?: string;
+  status: InstallmentStatus;
+  note?: string;
+}
+
+export interface InstallmentValidationResult {
+  ok: boolean;
+  item?: InstallmentDraft;
+  errors: Partial<Record<"description" | "amount", ErrorKey>>;
+}
+
+export function validateInstallmentDraft(
+  raw: RawInstallmentDraft,
+): InstallmentValidationResult {
+  const { errors, description, amountCents } = validateDescriptionAndAmount(raw);
+
+  if (Object.keys(errors).length > 0) {
+    return { ok: false, errors };
+  }
+
+  return {
+    ok: true,
+    errors: {},
+    item: {
+      description,
+      amountCents: amountCents as number,
+      date: blankToUndefined(raw.date ?? ""),
+      status: raw.status,
+      note: blankToUndefined(raw.note ?? ""),
+    },
+  };
+}
+
+export interface RawBarterEntryDraft {
+  description: string;
+  amount: string;
+  type: BarterType;
+  date?: string;
+  note?: string;
+}
+
+export interface BarterEntryValidationResult {
+  ok: boolean;
+  item?: BarterEntryDraft;
+  errors: Partial<Record<"description" | "amount", ErrorKey>>;
+}
+
+export function validateBarterEntryDraft(
+  raw: RawBarterEntryDraft,
+): BarterEntryValidationResult {
+  const { errors, description, amountCents } = validateDescriptionAndAmount(
+    raw,
+    raw.type === "manual_adjustment",
+  );
+
+  if (Object.keys(errors).length > 0) {
+    return { ok: false, errors };
+  }
+
+  return {
+    ok: true,
+    errors: {},
+    item: {
+      description,
+      amountCents: amountCents as number,
+      type: raw.type,
+      date: blankToUndefined(raw.date ?? ""),
+      note: blankToUndefined(raw.note ?? ""),
+    },
+  };
 }

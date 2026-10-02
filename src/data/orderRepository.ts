@@ -52,6 +52,28 @@ const seedOrder: Order = {
       status: "quoted",
     },
   ],
+  barterEntries: [
+    {
+      id: "barter-seed-1",
+      description: "Game rental credit",
+      amountCents: 2000,
+      type: "barter_credit",
+    },
+  ],
+  installments: [
+    {
+      id: "installment-seed-1",
+      description: "First installment",
+      amountCents: 5000,
+      status: "paid",
+    },
+    {
+      id: "installment-seed-2",
+      description: "Second installment",
+      amountCents: 5000,
+      status: "planned",
+    },
+  ],
 };
 
 export const mockOrderRepository: OrderRepository = {

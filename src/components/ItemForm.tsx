@@ -4,6 +4,8 @@ import { useId, useState } from "react";
 import { t } from "@/i18n/en";
 import { ITEM_STATUSES, OTHER_CATEGORY, type ItemDraft, type OrderItem } from "@/domain/types";
 import { validateItemDraft, type RawItemDraft } from "@/domain/validation";
+import { formatCentsForInput } from "@/domain/money";
+import { Field, inputClass } from "./formControls";
 
 interface ItemFormProps {
   editingItem: OrderItem | null;
@@ -26,7 +28,7 @@ function formFromItem(item: OrderItem | null): RawItemDraft {
     name: item.name,
     category: item.category,
     quantity: String(item.quantity),
-    unitPrice: (item.unitPriceCents / 100).toFixed(2).replace(".", ","),
+    unitPrice: formatCentsForInput(item.unitPriceCents),
     status: item.status,
   };
 }
@@ -154,31 +156,5 @@ export function ItemForm({
         )}
       </div>
     </form>
-  );
-}
-
-function inputClass(hasError: boolean) {
-  return `min-h-10 w-full rounded-md border px-3 text-sm text-zinc-900 focus:outline-none focus:ring-2 ${
-    hasError
-      ? "border-red-300 focus:ring-red-200"
-      : "border-zinc-200 focus:ring-accent-filament/30"
-  }`;
-}
-
-function Field({
-  label,
-  error,
-  children,
-}: {
-  label: string;
-  error?: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <label className="flex flex-col gap-1 text-sm">
-      <span className="font-medium text-zinc-700">{label}</span>
-      {children}
-      {error && <span className="text-xs text-red-600">{error}</span>}
-    </label>
   );
 }

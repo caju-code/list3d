@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { formatBRL, parsePriceToCents } from "./money";
+import {
+  formatBRL,
+  formatCentsForInput,
+  parsePriceToCents,
+  parseSignedPriceToCents,
+} from "./money";
 
 describe("parsePriceToCents", () => {
   it("parses a comma-decimal value", () => {
@@ -49,5 +54,45 @@ describe("formatBRL", () => {
 
   it("formats thousands with a dot separator", () => {
     expect(formatBRL(123456)).toBe(`R$ 1.234,56`);
+  });
+});
+
+describe("formatCentsForInput", () => {
+  it("formats cents as a comma-decimal string", () => {
+    expect(formatCentsForInput(1250)).toBe("12,50");
+  });
+
+  it("formats zero", () => {
+    expect(formatCentsForInput(0)).toBe("0,00");
+  });
+
+  it("pads a single-digit cents value", () => {
+    expect(formatCentsForInput(1005)).toBe("10,05");
+  });
+});
+
+describe("parseSignedPriceToCents", () => {
+  it("parses a positive value", () => {
+    expect(parseSignedPriceToCents("12,50")).toBe(1250);
+  });
+
+  it("parses a negative value", () => {
+    expect(parseSignedPriceToCents("-12,50")).toBe(-1250);
+  });
+
+  it("parses a negative dot-decimal value", () => {
+    expect(parseSignedPriceToCents("-12.50")).toBe(-1250);
+  });
+
+  it("rejects empty input", () => {
+    expect(parseSignedPriceToCents("")).toBeNull();
+  });
+
+  it("rejects non-numeric garbage", () => {
+    expect(parseSignedPriceToCents("abc")).toBeNull();
+  });
+
+  it("rejects more than two decimal places", () => {
+    expect(parseSignedPriceToCents("-12.505")).toBeNull();
   });
 });

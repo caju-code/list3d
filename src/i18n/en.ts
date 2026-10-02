@@ -1,4 +1,4 @@
-import type { ItemStatus } from "@/domain/types";
+import type { BarterType, InstallmentStatus, ItemStatus } from "@/domain/types";
 
 export const t = {
   appTitle: "list3d",
@@ -43,6 +43,8 @@ export const t = {
     categoryNameRequired: "Enter a category name.",
     categoryNameReserved: "“Other” is reserved for uncategorized items.",
     categoryNameDuplicate: "A category with this name already exists.",
+    descriptionRequired: "Enter a description.",
+    amountInvalid: "Enter an amount like 12,50 or 12.50.",
   },
 
   list: {
@@ -67,6 +69,79 @@ export const t = {
     confirmDeleteYes: "Yes, delete",
     confirmDeleteNo: "Cancel",
     empty: "No categories yet.",
+  },
+
+  installmentStatusLabels: {
+    planned: "Planned",
+    agreed: "Agreed",
+    paid: "Paid",
+    compensated: "Compensated",
+  } satisfies Record<InstallmentStatus, string>,
+
+  barterTypeLabels: {
+    barter_credit: "Barter credit",
+    manual_adjustment: "Manual adjustment",
+    discount: "Discount",
+  } satisfies Record<BarterType, string>,
+
+  installments: {
+    manage: "Installments",
+    addTitle: "Add installment",
+    editTitle: "Edit installment",
+    description: "Description",
+    descriptionPlaceholder: "e.g. First payment",
+    amount: "Amount",
+    date: "Date",
+    status: "Status",
+    note: "Note",
+    notePlaceholder: "Optional note",
+    submitAdd: "Add installment",
+    submitEdit: "Save changes",
+    cancel: "Cancel",
+    edit: "Edit",
+    delete: "Delete",
+    confirmDelete: "Delete this installment?",
+    confirmDeleteYes: "Yes, delete",
+    confirmDeleteNo: "Cancel",
+    empty: "No installments yet.",
+  },
+
+  barter: {
+    manage: "Barter & credits",
+    addTitle: "Add entry",
+    editTitle: "Edit entry",
+    description: "Description",
+    descriptionPlaceholder: "e.g. Rental value credit",
+    amount: "Amount",
+    amountHintAdjustment: "Use a negative amount (e.g. -20,00) to add a charge instead of a credit.",
+    type: "Type",
+    date: "Date",
+    note: "Note",
+    notePlaceholder: "Optional note",
+    submitAdd: "Add entry",
+    submitEdit: "Save changes",
+    cancel: "Cancel",
+    edit: "Edit",
+    delete: "Delete",
+    confirmDelete: "Delete this entry?",
+    confirmDeleteYes: "Yes, delete",
+    confirmDeleteNo: "Cancel",
+    empty: "No barter or credit entries yet.",
+  },
+
+  settlement: {
+    grossTotal: "Order total",
+    deliveredValue: "Delivered value",
+    barterCreditTotal: "Barter & credits",
+    installmentsTotal: "Installments paid",
+    remainingBalance: "Remaining balance",
+    planLabel: "Installment plan",
+    planMatches: "Matches the balance",
+    planEmpty: "No installment plan yet",
+    planShortBy: "Plan short by",
+    planOverBy: "Plan over by",
+    compensatedCaveatPrefix: "Remaining balance excludes",
+    compensatedCaveatSuffix: "settled via compensated installments.",
   },
 };
 
