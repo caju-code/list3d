@@ -5,82 +5,17 @@ export interface OrderRepository {
   save(order: Order): void;
 }
 
-const seedOrder: Order = {
-  id: "order-1",
-  clientName: "Board Haven Games",
-  title: "Board Haven Games — insert order",
-  categories: ["Inserts", "Organizers", "Miniatures"],
-  items: [
-    {
-      id: "seed-1",
-      name: "Game box insert (full tray)",
-      category: "Inserts",
-      quantity: 1,
-      unitPriceCents: 8500,
-      status: "delivered",
+export function createOrderRepository(id: string, initialOrder: Order): OrderRepository {
+  return {
+    load() {
+      return initialOrder;
     },
-    {
-      id: "seed-2",
-      name: "Token organizer, 6-slot",
-      category: "Organizers",
-      quantity: 4,
-      unitPriceCents: 1200,
-      status: "ready",
+    save(order: Order) {
+      void fetch(`/api/orders/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(order),
+      });
     },
-    {
-      id: "seed-3",
-      name: "Miniature base, 32mm",
-      category: "Miniatures",
-      quantity: 20,
-      unitPriceCents: 150,
-      status: "in_production",
-    },
-    {
-      id: "seed-4",
-      name: "Miniature base, 25mm",
-      category: "Miniatures",
-      quantity: 30,
-      unitPriceCents: 120,
-      status: "approved",
-    },
-    {
-      id: "seed-5",
-      name: "Card divider set",
-      category: "Other",
-      quantity: 2,
-      unitPriceCents: 600,
-      status: "quoted",
-    },
-  ],
-  barterEntries: [
-    {
-      id: "barter-seed-1",
-      description: "Game rental credit",
-      amountCents: 2000,
-      type: "barter_credit",
-    },
-  ],
-  installments: [
-    {
-      id: "installment-seed-1",
-      description: "First installment",
-      amountCents: 5000,
-      status: "paid",
-    },
-    {
-      id: "installment-seed-2",
-      description: "Second installment",
-      amountCents: 5000,
-      status: "planned",
-    },
-  ],
-};
-
-export const mockOrderRepository: OrderRepository = {
-  load() {
-    return seedOrder;
-  },
-  save() {
-    // no-op: mock persistence, replaced by localStorage/API repository later
-  },
-};
+  };
+}

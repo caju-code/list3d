@@ -1,6 +1,18 @@
+"use client";
+
+import { useState } from "react";
 import { t } from "@/i18n/en";
 
-export function AppHeader() {
+export function AppHeader({ orderId }: { orderId: string }) {
+  const [copied, setCopied] = useState(false);
+
+  async function handleShare() {
+    const url = `${window.location.origin}/o/${orderId}`;
+    await navigator.clipboard.writeText(url);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }
+
   return (
     <header className="flex flex-col items-start gap-3 border-b border-neutral-300 pb-4 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
       <div className="flex items-center gap-3">
@@ -27,13 +39,10 @@ export function AppHeader() {
       </div>
       <button
         type="button"
-        disabled
-        className="hidden shrink-0 items-center gap-1.5 rounded border border-neutral-300 bg-neutral-50 px-3 py-1.5 text-sm font-medium text-neutral-400 sm:flex"
+        onClick={handleShare}
+        className="hidden shrink-0 items-center gap-1.5 rounded border border-neutral-300 bg-neutral-50 px-3 py-1.5 text-sm font-medium text-neutral-700 sm:flex"
       >
-        {t.shareLink}
-        <span className="rounded bg-neutral-200 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-neutral-500">
-          {t.shareLinkSoon}
-        </span>
+        {copied ? t.shareLinkCopied : t.shareLink}
       </button>
     </header>
   );

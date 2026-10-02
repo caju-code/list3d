@@ -1,106 +1,17 @@
-"use client";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import { getOrder } from "@/server/db";
 
-import { useState } from "react";
-import { AppHeader } from "@/components/AppHeader";
-import { AppFooter } from "@/components/AppFooter";
-import { OrderSummary } from "@/components/OrderSummary";
-import { CategoryManager } from "@/components/CategoryManager";
-import { ItemForm } from "@/components/ItemForm";
-import { ItemList } from "@/components/ItemList";
-import { FinancialSummary } from "@/components/FinancialSummary";
-import { BarterEntryManager } from "@/components/BarterEntryManager";
-import { InstallmentManager } from "@/components/InstallmentManager";
-import { mockOrderRepository } from "@/data/orderRepository";
-import {
-  deliveredItemCount,
-  deliveredValue,
-  grossTotal,
-  itemCount,
-} from "@/domain/calc";
-import type { OrderItem } from "@/domain/types";
-import { useOrder } from "@/state/useOrder";
+const ORDER_ID_COOKIE = "order-id";
 
-export default function Home() {
-  const {
-    order,
-    addItem,
-    updateItem,
-    removeItem,
-    addCategory,
-    renameCategory,
-    deleteCategory,
-    addInstallment,
-    updateInstallment,
-    removeInstallment,
-    addBarterEntry,
-    updateBarterEntry,
-    removeBarterEntry,
-  } = useOrder(mockOrderRepository);
-  const [editingItem, setEditingItem] = useState<OrderItem | null>(null);
+export default async function Home() {
+  const cookieStore = await cookies();
+  const existingId = cookieStore.get(ORDER_ID_COOKIE)?.value;
+  const existingOrder = existingId ? await getOrder(existingId) : null;
 
-  function handleSubmit(draft: Parameters<typeof addItem>[0]) {
-    if (editingItem) {
-      updateItem(editingItem.id, draft);
-      setEditingItem(null);
-    } else {
-      addItem(draft);
-    }
+  if (existingOrder) {
+    redirect(`/o/${existingOrder.id}`);
   }
 
-  function handleDelete(id: string) {
-    if (editingItem?.id === id) setEditingItem(null);
-    removeItem(id);
-  }
-
-  return (
-    <div className="mx-auto flex w-full max-w-[640px] flex-1 flex-col gap-6 px-4 py-6">
-      <AppHeader />
-
-      <OrderSummary
-        grossTotalCents={grossTotal(order.items)}
-        deliveredValueCents={deliveredValue(order.items)}
-        itemCount={itemCount(order.items)}
-        deliveredItemCount={deliveredItemCount(order.items)}
-      />
-
-      <CategoryManager
-        categories={order.categories}
-        onAdd={addCategory}
-        onRename={renameCategory}
-        onDelete={deleteCategory}
-      />
-
-      <ItemForm
-        key={editingItem?.id ?? "new"}
-        editingItem={editingItem}
-        categories={order.categories}
-        onSubmit={handleSubmit}
-        onCancelEdit={() => setEditingItem(null)}
-      />
-
-      <ItemList items={order.items} onEdit={setEditingItem} onDelete={handleDelete} />
-
-      <FinancialSummary
-        items={order.items}
-        barterEntries={order.barterEntries}
-        installments={order.installments}
-      />
-
-      <BarterEntryManager
-        entries={order.barterEntries}
-        onAdd={addBarterEntry}
-        onUpdate={updateBarterEntry}
-        onDelete={removeBarterEntry}
-      />
-
-      <InstallmentManager
-        installments={order.installments}
-        onAdd={addInstallment}
-        onUpdate={updateInstallment}
-        onDelete={removeInstallment}
-      />
-
-      <AppFooter />
-    </div>
-  );
+  redirect("/new");
 }

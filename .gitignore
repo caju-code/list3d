@@ -32,9 +32,14 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
 
 # vercel
 .vercel
+
+# local dev database (libsql file fallback)
+local.db
+local.db-*
 
 # typescript
 *.tsbuildinfo
@@ -202,7 +207,7 @@ dist
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
 
 # Thumbnails
 ._*
