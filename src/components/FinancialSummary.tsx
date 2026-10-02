@@ -63,7 +63,7 @@ export function FinancialSummary({
       <StatTile label={t.settlement.planLabel} value={planLabel} danger={planDanger} />
 
       {compensated > 0 && (
-        <p className="col-span-2 text-xs text-zinc-500">
+        <p className="col-span-2 text-xs text-neutral-500">
           {t.settlement.compensatedCaveatPrefix} {formatBRL(compensated)}{" "}
           {t.settlement.compensatedCaveatSuffix}
         </p>

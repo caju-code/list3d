@@ -1,10 +1,11 @@
 import type { BarterType, InstallmentStatus, ItemStatus } from "@/domain/types";
 
 export const t = {
-  appTitle: "list3d",
-  appSubtitle: "3D print orders & settlement, at a glance",
+  appTitle: "Printfloor",
+  appSubtitle: "Production tracker for 3D print orders",
   shareLink: "Share link",
   shareLinkSoon: "soon",
+  iconAttribution: "Printer icon by Desireé Bolívar from the Noun Project",
 
   summary: {
     grossTotal: "Order total",

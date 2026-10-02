@@ -60,7 +60,7 @@ export function BarterEntryForm({
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-      <h3 className="text-sm font-semibold text-zinc-900">
+      <h3 className="text-sm font-semibold text-neutral-900">
         {isEditing ? t.barter.editTitle : t.barter.addTitle}
       </h3>
 
@@ -85,7 +85,7 @@ export function BarterEntryForm({
             className={inputClass(!!errors.amount)}
           />
           {form.type === "manual_adjustment" && (
-            <span className="text-xs text-zinc-500">{t.barter.amountHintAdjustment}</span>
+            <span className="text-xs text-neutral-500">{t.barter.amountHintAdjustment}</span>
           )}
         </Field>
 
@@ -130,7 +130,7 @@ export function BarterEntryForm({
       <div className="flex gap-2 pt-1">
         <button
           type="submit"
-          className="min-h-10 flex-1 rounded-md bg-accent-filament px-4 text-sm font-semibold text-white"
+          className="min-h-10 flex-1 rounded-md bg-accent-filament px-4 text-sm font-semibold text-canvas"
         >
           {isEditing ? t.barter.submitEdit : t.barter.submitAdd}
         </button>
@@ -138,7 +138,7 @@ export function BarterEntryForm({
           <button
             type="button"
             onClick={onCancelEdit}
-            className="min-h-10 rounded-md border border-zinc-200 px-4 text-sm font-medium text-zinc-600"
+            className="min-h-10 rounded-md border border-neutral-200 px-4 text-sm font-medium text-neutral-600"
           >
             {t.barter.cancel}
           </button>

@@ -64,9 +64,9 @@ export function ItemForm({
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col gap-3 rounded-lg border border-zinc-200 bg-white p-4"
+      className="flex flex-col gap-3 rounded-lg border border-neutral-200 bg-surface p-4"
     >
-      <h2 className="text-sm font-semibold text-zinc-900">
+      <h2 className="text-sm font-semibold text-neutral-900">
         {isEditing ? t.form.editTitle : t.form.addTitle}
       </h2>
 
@@ -141,7 +141,7 @@ export function ItemForm({
       <div className="flex gap-2 pt-1">
         <button
           type="submit"
-          className="min-h-10 flex-1 rounded-md bg-accent-filament px-4 text-sm font-semibold text-white"
+          className="min-h-10 flex-1 rounded-md bg-accent-filament px-4 text-sm font-semibold text-canvas"
         >
           {isEditing ? t.form.submitEdit : t.form.submitAdd}
         </button>
@@ -149,7 +149,7 @@ export function ItemForm({
           <button
             type="button"
             onClick={onCancelEdit}
-            className="min-h-10 rounded-md border border-zinc-200 px-4 text-sm font-medium text-zinc-600"
+            className="min-h-10 rounded-md border border-neutral-200 px-4 text-sm font-medium text-neutral-600"
           >
             {t.form.cancel}
           </button>

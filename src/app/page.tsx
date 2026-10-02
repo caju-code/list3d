@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { AppHeader } from "@/components/AppHeader";
+import { AppFooter } from "@/components/AppFooter";
 import { OrderSummary } from "@/components/OrderSummary";
 import { CategoryManager } from "@/components/CategoryManager";
 import { ItemForm } from "@/components/ItemForm";
@@ -98,6 +99,8 @@ export default function Home() {
         onUpdate={updateInstallment}
         onDelete={removeInstallment}
       />
+
+      <AppFooter />
     </div>
   );
 }

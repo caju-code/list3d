@@ -12,7 +12,7 @@ interface ItemListProps {
 export function ItemList({ items, onEdit, onDelete }: ItemListProps) {
   if (items.length === 0) {
     return (
-      <p className="rounded-lg border border-dashed border-zinc-300 p-6 text-center text-sm text-zinc-500">
+      <p className="rounded-lg border border-dashed border-neutral-300 p-6 text-center text-sm text-neutral-500">
         {t.list.empty}
       </p>
     );
