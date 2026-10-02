@@ -17,15 +17,15 @@ export function ItemRow({ item, onEdit, onDelete }: ItemRowProps) {
   const [confirmingDelete, setConfirmingDelete] = useState(false);
 
   return (
-    <li className="flex flex-col gap-2 border-t border-zinc-100 py-3 first:border-t-0">
+    <li className="flex flex-col gap-2 border-t border-zinc-200 py-3 first:border-t-0">
       <div className="flex items-start justify-between gap-3">
         <div>
           <p className="text-sm font-medium text-zinc-900">{item.name}</p>
           <p className="font-mono text-xs text-zinc-500">
-            {item.quantity} × {formatBRL(item.unitPriceCents)}
+            {item.quantity}× {formatBRL(item.unitPriceCents)}/un
           </p>
         </div>
-        <div className="flex flex-col items-end gap-1">
+        <div className="flex flex-col items-end gap-1.5">
           <p className="font-mono text-sm font-semibold text-zinc-900">
             {formatBRL(itemSubtotal(item))}
           </p>

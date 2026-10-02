@@ -2,7 +2,7 @@ import { t } from "@/i18n/en";
 
 export function AppHeader() {
   return (
-    <header className="flex items-center justify-between gap-4 border-b border-zinc-200 pb-4">
+    <header className="flex items-center justify-between gap-4 border-b border-zinc-300 pb-4">
       <div className="flex items-center gap-3">
         <svg
           viewBox="0 0 24 24"
@@ -21,13 +21,15 @@ export function AppHeader() {
           <h1 className="text-lg font-semibold tracking-tight text-zinc-900">
             {t.appTitle}
           </h1>
-          <p className="text-sm text-zinc-500">{t.appSubtitle}</p>
+          <p className="text-xs font-medium tracking-wide text-zinc-500 uppercase">
+            {t.appSubtitle}
+          </p>
         </div>
       </div>
       <button
         type="button"
         disabled
-        className="flex shrink-0 items-center gap-1.5 rounded-md border border-zinc-200 bg-zinc-50 px-3 py-1.5 text-sm font-medium text-zinc-400"
+        className="flex shrink-0 items-center gap-1.5 rounded border border-zinc-300 bg-zinc-50 px-3 py-1.5 text-sm font-medium text-zinc-400"
       >
         {t.shareLink}
         <span className="rounded bg-zinc-200 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-zinc-500">
