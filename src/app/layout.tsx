@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "list3d",
+  title: "Printfloor",
   description: "3D print orders & settlement, at a glance",
 };
 
