@@ -5,6 +5,7 @@ export const t = {
   appSubtitle: "Production tracker for 3D print orders",
   shareLink: "Share link",
   shareLinkSoon: "soon",
+  iconAttribution: "Printer icon by Desireé Bolívar from the Noun Project",
 
   summary: {
     grossTotal: "Order total",
