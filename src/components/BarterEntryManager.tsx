@@ -38,21 +38,21 @@ export function BarterEntryManager({
   }
 
   return (
-    <div className="rounded-lg border border-zinc-200 bg-white">
+    <div className="rounded-lg border border-neutral-200 bg-surface">
       <button
         type="button"
         onClick={() => setOpen(!open)}
         aria-expanded={open}
-        className="flex w-full items-center justify-between px-4 py-3 text-left text-sm font-medium text-zinc-700"
+        className="flex w-full items-center justify-between px-4 py-3 text-left text-sm font-medium text-neutral-700"
       >
         {t.barter.manage}
-        <span aria-hidden="true" className="text-zinc-400">
+        <span aria-hidden="true" className="text-neutral-400">
           {open ? "−" : "+"}
         </span>
       </button>
 
       {open && (
-        <div className="flex flex-col gap-4 border-t border-zinc-100 p-4">
+        <div className="flex flex-col gap-4 border-t border-neutral-100 p-4">
           <BarterEntryForm
             key={editingEntry?.id ?? "new"}
             editingEntry={editingEntry}
@@ -61,7 +61,7 @@ export function BarterEntryManager({
           />
 
           {entries.length === 0 ? (
-            <p className="text-sm text-zinc-500">{t.barter.empty}</p>
+            <p className="text-sm text-neutral-500">{t.barter.empty}</p>
           ) : (
             <ul>
               {entries.map((entry) => (
@@ -92,18 +92,18 @@ function BarterEntryRow({
   const [confirmingDelete, setConfirmingDelete] = useState(false);
 
   return (
-    <li className="flex flex-col gap-2 border-t border-zinc-100 py-3 first:border-t-0">
+    <li className="flex flex-col gap-2 border-t border-neutral-100 py-3 first:border-t-0">
       <div className="flex items-start justify-between gap-3">
         <div>
-          <p className="text-sm font-medium text-zinc-900">{entry.description}</p>
+          <p className="text-sm font-medium text-neutral-900">{entry.description}</p>
           {(entry.date || entry.note) && (
-            <p className="text-xs text-zinc-500">
+            <p className="text-xs text-neutral-500">
               {[entry.date, entry.note].filter(Boolean).join(" · ")}
             </p>
           )}
         </div>
         <div className="flex flex-col items-end gap-1">
-          <p className="font-mono text-sm font-semibold text-zinc-900">
+          <p className="font-mono text-sm font-semibold text-neutral-900">
             {formatBRL(entry.amountCents)}
           </p>
           <BarterTypeBadge type={entry.type} />
@@ -112,18 +112,18 @@ function BarterEntryRow({
 
       {confirmingDelete ? (
         <div className="flex items-center justify-end gap-2 text-sm">
-          <span className="text-zinc-600">{t.barter.confirmDelete}</span>
+          <span className="text-neutral-600">{t.barter.confirmDelete}</span>
           <button
             type="button"
             onClick={() => onDelete(entry.id)}
-            className="font-medium text-red-600"
+            className="font-medium text-accent-filament"
           >
             {t.barter.confirmDeleteYes}
           </button>
           <button
             type="button"
             onClick={() => setConfirmingDelete(false)}
-            className="font-medium text-zinc-500"
+            className="font-medium text-neutral-500"
           >
             {t.barter.confirmDeleteNo}
           </button>
@@ -133,14 +133,14 @@ function BarterEntryRow({
           <button
             type="button"
             onClick={() => onEdit(entry)}
-            className="font-medium text-zinc-600"
+            className="font-medium text-neutral-600"
           >
             {t.barter.edit}
           </button>
           <button
             type="button"
             onClick={() => setConfirmingDelete(true)}
-            className="font-medium text-red-600"
+            className="font-medium text-accent-filament"
           >
             {t.barter.delete}
           </button>

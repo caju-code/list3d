@@ -16,21 +16,21 @@ export function CategoryGroup({ group, onEdit, onDelete }: CategoryGroupProps) {
   const [expanded, setExpanded] = useState(true);
 
   return (
-    <div className="rounded border border-zinc-200 bg-white p-4">
+    <div className="rounded border border-neutral-200 bg-surface p-4">
       <button
         type="button"
         onClick={() => setExpanded(!expanded)}
         aria-expanded={expanded}
         className="flex w-full items-baseline justify-between text-left"
       >
-        <h3 className="text-sm font-semibold tracking-wide text-zinc-900 uppercase">
-          <span aria-hidden="true" className="mr-1 inline-block w-3 text-zinc-400 normal-case">
+        <h3 className="text-sm font-semibold tracking-wide text-neutral-900 uppercase">
+          <span aria-hidden="true" className="mr-1 inline-block w-3 text-neutral-400 normal-case">
             {expanded ? "−" : "+"}
           </span>
           {group.category}{" "}
-          <span className="font-normal normal-case text-zinc-400">({group.items.length})</span>
+          <span className="font-normal normal-case text-neutral-400">({group.items.length})</span>
         </h3>
-        <p className="font-mono text-sm text-zinc-500">
+        <p className="font-mono text-sm text-neutral-500">
           {formatBRL(group.subtotalCents)}
         </p>
       </button>

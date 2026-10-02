@@ -44,20 +44,20 @@ export function StatTile({
 }) {
   return (
     <div
-      className={`rounded border-l-2 bg-white p-3 ${
+      className={`rounded border-l-2 bg-surface p-3 ${
         danger
-          ? "border-l-red-500"
+          ? "border-l-accent-filament"
           : highlight
-            ? "border-l-accent-filament"
-            : "border-l-zinc-300"
+            ? "border-l-accent-petrol"
+            : "border-l-neutral-300"
       }`}
     >
-      <p className="text-[11px] font-medium uppercase tracking-wide text-zinc-500">
+      <p className="text-[11px] font-medium uppercase tracking-wide text-neutral-500">
         {label}
       </p>
       <p
         className={`mt-1 font-mono text-xl font-semibold ${
-          danger ? "text-red-700" : highlight ? "text-accent-filament" : "text-zinc-900"
+          danger ? "text-accent-filament" : highlight ? "text-accent-petrol" : "text-neutral-900"
         }`}
       >
         {value}

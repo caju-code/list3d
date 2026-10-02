@@ -34,21 +34,21 @@ export function CategoryManager({
   }
 
   return (
-    <div className="rounded-lg border border-zinc-200 bg-white">
+    <div className="rounded-lg border border-neutral-200 bg-surface">
       <button
         type="button"
         onClick={() => setOpen(!open)}
         aria-expanded={open}
-        className="flex w-full items-center justify-between px-4 py-3 text-left text-sm font-medium text-zinc-700"
+        className="flex w-full items-center justify-between px-4 py-3 text-left text-sm font-medium text-neutral-700"
       >
         {t.categories.manage}
-        <span aria-hidden="true" className="text-zinc-400">
+        <span aria-hidden="true" className="text-neutral-400">
           {open ? "−" : "+"}
         </span>
       </button>
 
       {open && (
-        <div className="flex flex-col gap-3 border-t border-zinc-100 p-4">
+        <div className="flex flex-col gap-3 border-t border-neutral-100 p-4">
           <form onSubmit={handleAdd} className="flex gap-2">
             <input
               type="text"
@@ -58,19 +58,19 @@ export function CategoryManager({
                 setNewName(e.target.value);
                 setAddError(null);
               }}
-              className="min-h-10 flex-1 rounded-md border border-zinc-200 px-3 text-sm text-zinc-900 focus:outline-none focus:ring-2 focus:ring-accent-filament/30"
+              className="min-h-10 flex-1 rounded-md border border-neutral-200 px-3 text-sm text-neutral-900 focus:outline-none focus:ring-2 focus:ring-accent-filament/30"
             />
             <button
               type="submit"
-              className="min-h-10 rounded-md bg-accent-filament px-4 text-sm font-semibold text-white"
+              className="min-h-10 rounded-md bg-accent-filament px-4 text-sm font-semibold text-canvas"
             >
               {t.categories.add}
             </button>
           </form>
-          {addError && <p className="text-xs text-red-600">{addError}</p>}
+          {addError && <p className="text-xs text-accent-filament">{addError}</p>}
 
           {categories.length === 0 ? (
-            <p className="text-sm text-zinc-500">{t.categories.empty}</p>
+            <p className="text-sm text-neutral-500">{t.categories.empty}</p>
           ) : (
             <ul className="flex flex-col gap-2">
               {categories.map((category) => (
@@ -130,11 +130,11 @@ function CategoryRow({
               setRenameError(null);
             }}
             autoFocus
-            className="min-h-9 flex-1 rounded-md border border-zinc-200 px-3 text-sm text-zinc-900 focus:outline-none focus:ring-2 focus:ring-accent-filament/30"
+            className="min-h-9 flex-1 rounded-md border border-neutral-200 px-3 text-sm text-neutral-900 focus:outline-none focus:ring-2 focus:ring-accent-filament/30"
           />
           <button
             type="submit"
-            className="min-h-9 rounded-md border border-zinc-200 px-3 text-sm font-medium text-zinc-700"
+            className="min-h-9 rounded-md border border-neutral-200 px-3 text-sm font-medium text-neutral-700"
           >
             {t.categories.save}
           </button>
@@ -145,33 +145,33 @@ function CategoryRow({
               setRenameValue(category);
               setRenameError(null);
             }}
-            className="min-h-9 rounded-md px-3 text-sm font-medium text-zinc-500"
+            className="min-h-9 rounded-md px-3 text-sm font-medium text-neutral-500"
           >
             {t.categories.cancel}
           </button>
         </form>
-        {renameError && <p className="mt-1 text-xs text-red-600">{renameError}</p>}
+        {renameError && <p className="mt-1 text-xs text-accent-filament">{renameError}</p>}
       </li>
     );
   }
 
   return (
     <li className="flex items-center justify-between gap-2 text-sm">
-      <span className="text-zinc-900">{category}</span>
+      <span className="text-neutral-900">{category}</span>
       {confirmingDelete ? (
         <span className="flex items-center gap-2">
-          <span className="text-xs text-zinc-600">{t.categories.confirmDelete}</span>
+          <span className="text-xs text-neutral-600">{t.categories.confirmDelete}</span>
           <button
             type="button"
             onClick={() => onDelete(category)}
-            className="font-medium text-red-600"
+            className="font-medium text-accent-filament"
           >
             {t.categories.confirmDeleteYes}
           </button>
           <button
             type="button"
             onClick={() => setConfirmingDelete(false)}
-            className="font-medium text-zinc-500"
+            className="font-medium text-neutral-500"
           >
             {t.categories.confirmDeleteNo}
           </button>
@@ -181,14 +181,14 @@ function CategoryRow({
           <button
             type="button"
             onClick={() => setRenaming(true)}
-            className="font-medium text-zinc-600"
+            className="font-medium text-neutral-600"
           >
             {t.categories.rename}
           </button>
           <button
             type="button"
             onClick={() => setConfirmingDelete(true)}
-            className="font-medium text-red-600"
+            className="font-medium text-accent-filament"
           >
             {t.categories.delete}
           </button>
