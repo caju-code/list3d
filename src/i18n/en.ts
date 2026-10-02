@@ -6,6 +6,8 @@ export const t = {
   shareLink: "Share link",
   shareLinkCopied: "Copied!",
   iconAttribution: "Printer icon by Desireé Bolívar from the Noun Project",
+  madeByPrefix: "Made with",
+  madeBySuffix: "by Caju Code + Magia em Bits",
 
   summary: {
     grossTotal: "Order total",
